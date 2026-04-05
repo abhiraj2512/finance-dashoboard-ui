@@ -14,7 +14,7 @@ A modern, responsive, and interactive frontend finance dashboard application des
 
 ---
 
-## ✨ Features
+##  Features
 
 - **Dashboard Overview:** Instantly view your total balance, total income, and total expenses via clean summary cards.
 - **Line Chart (Balance Trend):** Visualize how your balance changes over time with interactive tooltips.
@@ -87,10 +87,10 @@ To run this project locally, follow these steps:
 ## 📸 Screenshots
 
 ![Dashboard Screenshot - Light Mode](./screenshots/dashboard-light.png)
-*(Note: Replace placeholder with actual screenshot path)*
+
 
 ![Dashboard Screenshot - Dark Mode](./screenshots/dashboard-dark.png)
-*(Note: Replace placeholder with actual screenshot path)*
+
 
 ---
 

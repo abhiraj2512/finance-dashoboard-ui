@@ -32,7 +32,7 @@ export function getExpenseByCategory(transactions: Transaction[]) {
 export function getMonthlyComparison(transactions: Transaction[]) {
   const map: Record<string, { income: number; expenses: number }> = {};
   for (const t of transactions) {
-    const month = t.date.slice(0, 7); // "YYYY-MM"
+    const month = t.date.slice(0, 7);
     if (!map[month]) map[month] = { income: 0, expenses: 0 };
     if (t.type === "income") map[month].income += t.amount;
     else map[month].expenses += t.amount;
