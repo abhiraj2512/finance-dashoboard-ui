@@ -1,24 +1,30 @@
 import React from "react";
 import { useFinance } from "../../hooks/useFinance";
 import { calcSummary, formatCurrency } from "../../utils/financeUtils";
+import { themeClasses } from "../../utils/themeClasses";
 
 interface CardProps {
   label: string;
   value: string;
   icon: string;
-  colorClass: string;
-  bgClass: string;
-  borderClass: string;
+  valueClass: string;
+  gradientFrom: string;
+  gradientTo: string;
+  trend?: string;
 }
 
-const SummaryCard: React.FC<CardProps> = ({ label, value, icon, colorClass, bgClass, borderClass }) => (
-  <div className={`bg-white rounded-2xl shadow-sm border ${borderClass} p-6 flex items-center gap-5 hover:shadow-md transition-shadow`}>
-    <div className={`w-14 h-14 rounded-xl ${bgClass} flex items-center justify-center text-2xl flex-shrink-0`}>
+const SummaryCard: React.FC<CardProps> = ({ label, value, icon, valueClass, gradientFrom, gradientTo, trend }) => (
+  <div className={`${themeClasses.card} p-5 sm:p-6 flex items-center gap-4 group cursor-default animate-fade-in`}>
+    <div
+      className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-xl sm:text-2xl flex-shrink-0
+                  bg-gradient-to-br ${gradientFrom} ${gradientTo} shadow-sm group-hover:scale-105 transition-transform duration-200`}
+    >
       {icon}
     </div>
-    <div>
-      <p className="text-sm font-medium text-gray-500 mb-1">{label}</p>
-      <p className={`text-2xl font-bold ${colorClass}`}>{value}</p>
+    <div className="min-w-0">
+      <p className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 mb-0.5 truncate">{label}</p>
+      <p className={`text-xl sm:text-2xl font-bold tracking-tight ${valueClass}`}>{value}</p>
+      {trend && <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{trend}</p>}
     </div>
   </div>
 );
@@ -33,25 +39,28 @@ export const SummaryCards: React.FC = () => {
         label="Total Balance"
         value={formatCurrency(balance)}
         icon="💰"
-        colorClass={balance >= 0 ? "text-blue-700" : "text-red-600"}
-        bgClass="bg-blue-50"
-        borderClass="border-blue-100"
+        valueClass={balance >= 0 ? "text-indigo-600 dark:text-indigo-400" : "text-rose-600 dark:text-rose-400"}
+        gradientFrom="from-indigo-100 dark:from-indigo-900/60"
+        gradientTo="to-blue-100 dark:to-blue-900/40"
+        trend="Net position"
       />
       <SummaryCard
         label="Total Income"
         value={formatCurrency(totalIncome)}
         icon="📈"
-        colorClass="text-emerald-600"
-        bgClass="bg-emerald-50"
-        borderClass="border-emerald-100"
+        valueClass="text-emerald-600 dark:text-emerald-400"
+        gradientFrom="from-emerald-100 dark:from-emerald-900/60"
+        gradientTo="to-teal-100 dark:to-teal-900/40"
+        trend="All time earnings"
       />
       <SummaryCard
         label="Total Expenses"
         value={formatCurrency(totalExpenses)}
         icon="📉"
-        colorClass="text-rose-600"
-        bgClass="bg-rose-50"
-        borderClass="border-rose-100"
+        valueClass="text-rose-600 dark:text-rose-400"
+        gradientFrom="from-rose-100 dark:from-rose-900/60"
+        gradientTo="to-orange-100 dark:to-orange-900/40"
+        trend="All time spending"
       />
     </div>
   );

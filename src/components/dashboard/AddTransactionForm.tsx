@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useFinance } from "../../hooks/useFinance";
 import { Transaction } from "../../types";
+import { themeClasses } from "../../utils/themeClasses";
 
 const CATEGORIES = [
   "Salary", "Freelance", "Groceries", "Transport", "Utilities",
@@ -38,46 +39,46 @@ export const AddTransactionForm: React.FC = () => {
 
   return (
     <>
-      <button
-        onClick={() => setOpen(true)}
-        className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl shadow transition-colors"
-      >
-        <span className="text-base leading-none">+</span> Add Transaction
+      <button onClick={() => setOpen(true)} className={themeClasses.btnPrimary}>
+        <span className="text-lg leading-none">+</span> <span className="hidden sm:inline">Add Transaction</span><span className="inline sm:hidden">Add</span>
       </button>
 
       {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm mx-4 p-6">
-            <div className="flex justify-between items-center mb-5">
-              <h2 className="text-lg font-bold text-gray-800">New Transaction</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/40 dark:bg-black/60 backdrop-blur-sm p-4 animate-fade-in">
+          <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl shadow-xl w-full max-w-sm overflow-hidden animate-slide-up">
+            <div className="p-5 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50/50 dark:bg-gray-800/20">
+              <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">New Transaction</h2>
               <button
                 onClick={() => { setOpen(false); setError(""); }}
-                className="text-gray-400 hover:text-gray-600 text-xl leading-none"
+                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl leading-none transition-colors"
+                aria-label="Close modal"
               >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="p-5 space-y-4">
               {error && (
-                <p className="text-xs text-rose-600 bg-rose-50 border border-rose-200 rounded-lg px-3 py-2">
-                  {error}
-                </p>
+                <div className="p-3 bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800/50 rounded-xl">
+                  <p className="text-xs text-rose-600 dark:text-rose-400 text-center font-medium">
+                    {error}
+                  </p>
+                </div>
               )}
 
               <div>
-                <label className="text-xs font-medium text-gray-600 block mb-1">Date</label>
+                <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 block mb-1.5 uppercase tracking-wide">Date</label>
                 <input
                   type="date"
                   value={form.date}
                   onChange={(e) => setForm({ ...form, date: e.target.value })}
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                  className={themeClasses.inputBase}
                   required
                 />
               </div>
 
               <div>
-                <label className="text-xs font-medium text-gray-600 block mb-1">Amount ($)</label>
+                <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 block mb-1.5 uppercase tracking-wide">Amount ($)</label>
                 <input
                   type="number"
                   min="0.01"
@@ -85,36 +86,40 @@ export const AddTransactionForm: React.FC = () => {
                   placeholder="0.00"
                   value={form.amount}
                   onChange={(e) => setForm({ ...form, amount: e.target.value })}
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                  className={themeClasses.inputBase}
                   required
                 />
               </div>
 
               <div>
-                <label className="text-xs font-medium text-gray-600 block mb-1">Category</label>
+                <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 block mb-1.5 uppercase tracking-wide">Category</label>
                 <select
                   value={form.category}
                   onChange={(e) => setForm({ ...form, category: e.target.value })}
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                  className={themeClasses.inputBase}
                 >
-                  {CATEGORIES.map((c) => <option key={c}>{c}</option>)}
+                  {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
 
               <div>
-                <label className="text-xs font-medium text-gray-600 block mb-1">Type</label>
-                <div className="flex gap-3">
+                <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 block mb-2 uppercase tracking-wide">Type</label>
+                <div className="flex gap-4">
                   {(["income", "expense"] as const).map((t) => (
-                    <label key={t} className="flex items-center gap-2 cursor-pointer">
+                    <label key={t} className="flex items-center gap-2 cursor-pointer group">
                       <input
                         type="radio"
                         name="type"
                         value={t}
                         checked={form.type === t}
                         onChange={() => setForm({ ...form, type: t })}
-                        className="accent-indigo-600"
+                        className="w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 transition-all cursor-pointer"
                       />
-                      <span className={`text-sm font-medium capitalize ${t === "income" ? "text-emerald-600" : "text-rose-600"}`}>
+                      <span className={`text-sm font-semibold capitalize transition-colors ${
+                        form.type === t 
+                          ? (t === "income" ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400")
+                          : "text-gray-600 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-200"
+                      }`}>
                         {t}
                       </span>
                     </label>
@@ -122,12 +127,11 @@ export const AddTransactionForm: React.FC = () => {
                 </div>
               </div>
 
-              <button
-                type="submit"
-                className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl transition-colors"
-              >
-                Add Transaction
-              </button>
+              <div className="pt-2">
+                <button type="submit" className={`${themeClasses.btnPrimary} w-full py-2.5 text-base`}>
+                  Save Transaction
+                </button>
+              </div>
             </form>
           </div>
         </div>
