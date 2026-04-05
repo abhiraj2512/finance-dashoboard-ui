@@ -1,19 +1,41 @@
 import React from "react";
 import { Header } from "../components/layout/Header";
+import { SummaryCards } from "../components/dashboard/SummaryCards";
+import { BalanceTrendChart, ExpensePieChart } from "../components/charts/Charts";
+import { TransactionTable } from "../components/transactions/TransactionTable";
+import { InsightsSection } from "../components/insights/InsightsSection";
 
 export const DashboardPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-50">
       <Header />
-      <main>
-        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-          <div className="px-4 py-6 sm:px-0">
-            <div className="border-4 border-dashed border-gray-200 rounded-lg h-96 flex items-center justify-center">
-              <span className="text-gray-500 text-xl">Dashboard content coming soon</span>
-            </div>
-          </div>
-        </div>
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        {/* Summary Cards */}
+        <section>
+          <SummaryCards />
+        </section>
+
+        {/* Charts */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <BalanceTrendChart />
+          <ExpensePieChart />
+        </section>
+
+        {/* Insights */}
+        <section>
+          <InsightsSection />
+        </section>
+
+        {/* Transaction Table */}
+        <section>
+          <TransactionTable />
+        </section>
       </main>
+
+      <footer className="text-center text-xs text-gray-400 py-6">
+        © {new Date().getFullYear()} Finance Dashboard · Personal use only
+      </footer>
     </div>
   );
 };
